@@ -1,6 +1,6 @@
 {
   "name": "@gzeu/green-dot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "🟢 Keep your Teams & Messenger status green - AI-powered presence keeper",
   "main": "lib/launcher.js",
   "bin": {
@@ -35,7 +35,9 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "os": ["win32"],
+  "os": [
+    "win32"
+  ],
   "dependencies": {
     "chalk": "^4.1.2",
     "commander": "^11.1.0",
