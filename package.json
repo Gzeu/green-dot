@@ -1,6 +1,6 @@
 {
   "name": "@gzeu/green-dot",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "🟢 Keep your Teams & Messenger status green - AI-powered presence keeper",
   "main": "lib/launcher.js",
   "bin": {
