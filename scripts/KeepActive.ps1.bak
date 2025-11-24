@@ -98,10 +98,10 @@ function Clear-PSHistory {
     }
 }
 
-Write-Host "[ACTIVE] Green Dot Active" -ForegroundColor Green
+Write-Host "🟢 Green Dot Active" -ForegroundColor Green
 Write-Host "Interval: $IntervalMinutes minutes" -ForegroundColor Gray
 Write-Host "Mode: $(if($Adaptive){'AI Adaptive'}else{'Standard'})" -ForegroundColor Gray
-Write-Host "Features: $(if($BurstMode){'[BURST] '})$(if($CheckIdle){'[IDLE] '})$(if($LowPriority){'[STEALTH]'})" -ForegroundColor Gray
+Write-Host "Features: $(if($BurstMode){'⚡Burst '})$(if($CheckIdle){'👤Idle '})$(if($LowPriority){'🔇Stealth'})" -ForegroundColor Gray
 Write-Host ""
 
 $iteration = 0
