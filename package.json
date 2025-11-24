@@ -1,0 +1,46 @@
+{
+  "name": "green-dot",
+  "version": "1.0.0",
+  "description": "🟢 Keep your Teams & Messenger status green - AI-powered presence keeper",
+  "main": "lib/launcher.js",
+  "bin": {
+    "green-dot": "./bin/green-dot.js",
+    "gd": "./bin/green-dot.js"
+  },
+  "scripts": {
+    "start": "node bin/green-dot.js",
+    "test": "node bin/green-dot.js --test",
+    "postinstall": "node lib/postinstall.js"
+  },
+  "keywords": [
+    "green-dot",
+    "teams",
+    "messenger",
+    "active",
+    "status",
+    "presence",
+    "ai",
+    "automation"
+  ],
+  "author": "Geo Pricop <pricopgeorge@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gzeu/green-dot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Gzeu/green-dot/issues"
+  },
+  "homepage": "https://github.com/Gzeu/green-dot#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "os": ["win32"],
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^11.1.0",
+    "ora": "^5.4.1",
+    "update-notifier": "^6.0.2"
+  },
+  "preferGlobal": true
+}
