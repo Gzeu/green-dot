@@ -4,7 +4,7 @@
 
 const { program } = require('commander');
 const chalk = require('chalk');
-const updateNotifier = require('update-notifier');
+const updateNotifier = require('update-notifier').default;
 const launcher = require('../lib/launcher');
 const pkg = require('../package.json');
 
