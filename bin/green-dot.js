@@ -6,6 +6,7 @@ const { program } = require('commander');
 const chalk = require('chalk');
 const updateNotifier = require('update-notifier').default;
 const launcher = require('../lib/launcher');
+const menu = require('../lib/menu');
 const pkg = require('../package.json');
 
 // Check for updates
@@ -40,10 +41,18 @@ program
   .option('--stop', 'Stop all running instances')
   .option('--status', 'Show status of running instances')
   .option('--config', 'Show current configuration')
+  .option('--menu', 'Show interactive menu')
   .parse(process.argv);
 
 const options = program.opts();
 
+// If no arguments provided, show the menu
+if (process.argv.length <= 2 || options.menu) {
+  menu.showMainMenu();
+  return;
+}
+
+// Handle command-line arguments
 (async () => {
   try {
     if (options.stop) {

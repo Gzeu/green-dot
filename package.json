@@ -4,8 +4,8 @@
   "description": "🟢 Keep your Teams & Messenger status green - AI-powered presence keeper",
   "main": "lib/launcher.js",
   "bin": {
-    "green-dot": "./bin/green-dot.js",
-    "gd": "./bin/green-dot.js"
+    "green-dot": "bin/green-dot.js",
+    "gd": "bin/green-dot.js"
   },
   "scripts": {
     "start": "node bin/green-dot.js",
@@ -26,7 +26,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Gzeu/green-dot.git"
+    "url": "git+https://github.com/Gzeu/green-dot.git"
   },
   "bugs": {
     "url": "https://github.com/Gzeu/green-dot/issues"
@@ -42,6 +42,7 @@
     "chalk": "^4.1.2",
     "commander": "^11.1.0",
     "ora": "^5.4.1",
+    "prompts": "^2.4.2",
     "update-notifier": "^6.0.2"
   },
   "preferGlobal": true
