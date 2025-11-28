@@ -7,7 +7,620 @@
     <meta name="theme-color" content="#4A90E2">
     <title>The Green Dot Tale ✨</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2300C853'/%3E%3Ctext x='50' y='65' text-anchor='middle' font-size='50'%3E✨%3C/text%3E%3C/svg%3E">
-    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            color: #fff;
+        }
+
+        /* ===== STARS BACKGROUND ===== */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        .star:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
+        .star:nth-child(2) { top: 20%; left: 80%; animation-delay: 0.5s; }
+        .star:nth-child(3) { top: 30%; left: 40%; animation-delay: 1s; }
+        .star:nth-child(4) { top: 50%; left: 70%; animation-delay: 1.5s; }
+        .star:nth-child(5) { top: 70%; left: 30%; animation-delay: 2s; }
+        .star:nth-child(6) { top: 80%; left: 60%; animation-delay: 2.5s; }
+        .star:nth-child(7) { top: 40%; left: 10%; animation-delay: 0.8s; }
+        .star:nth-child(8) { top: 60%; left: 90%; animation-delay: 1.8s; }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        /* ===== FLOATING SPARKLES ===== */
+        .sparkles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .sparkle {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: float 6s infinite ease-in-out;
+            opacity: 0.6;
+        }
+
+        .sparkle:nth-child(1) { top: 15%; left: 10%; animation-delay: 0s; }
+        .sparkle:nth-child(2) { top: 35%; left: 85%; animation-delay: 1s; }
+        .sparkle:nth-child(3) { top: 55%; left: 15%; animation-delay: 2s; }
+        .sparkle:nth-child(4) { top: 75%; left: 75%; animation-delay: 3s; }
+        .sparkle:nth-child(5) { top: 25%; left: 50%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* ===== STORYBOOK CONTAINER ===== */
+        .storybook {
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        /* ===== CHAPTERS ===== */
+        .chapter {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* ===== CHAPTER 1: INTRO ===== */
+        .chapter-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .chapter-number {
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            color: #ffd700;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .story-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .story-subtitle {
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        .story-scroll {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+        }
+
+        .story-paragraph {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: justify;
+        }
+
+        .story-initial {
+            font-size: 3rem;
+            float: left;
+            line-height: 1;
+            margin-right: 10px;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        /* ===== CHAPTER 2: GUARDIAN ===== */
+        .guardian-scene {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .magic-circle {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 2rem auto;
+        }
+
+        .pulse-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150px;
+            height: 150px;
+            border: 3px solid rgba(0, 200, 83, 0.5);
+            border-radius: 50%;
+            animation: pulse-ring 2s infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+        }
+
+        .guardian-orb {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #00C853, #00E676);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 40px rgba(0, 200, 83, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .guardian-orb.active {
+            animation: orb-glow 2s infinite;
+        }
+
+        @keyframes orb-glow {
+            0%, 100% { box-shadow: 0 0 40px rgba(0, 200, 83, 0.8); }
+            50% { box-shadow: 0 0 60px rgba(0, 200, 83, 1); }
+        }
+
+        .orb-icon {
+            font-size: 4rem;
+        }
+
+        .magic-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .particle {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: particle-float 3s infinite;
+        }
+
+        .particle:nth-child(1) { top: 0; left: 50%; animation-delay: 0s; }
+        .particle:nth-child(2) { top: 50%; left: 100%; animation-delay: 0.5s; }
+        .particle:nth-child(3) { top: 100%; left: 50%; animation-delay: 1s; }
+        .particle:nth-child(4) { top: 50%; left: 0; animation-delay: 1.5s; }
+
+        @keyframes particle-float {
+            0%, 100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .guardian-status {
+            margin-top: 2rem;
+        }
+
+        .guardian-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #ffd700;
+        }
+
+        .enchanted-timer {
+            font-size: 2.5rem;
+            font-family: 'Courier New', monospace;
+            color: #00E676;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(0, 230, 118, 0.8);
+        }
+
+        .guardian-message {
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        /* ===== SPELL CASTING ===== */
+        .spell-casting {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .spell-title {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #ffd700;
+        }
+
+        .magic-modes {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .magic-mode {
+            flex: 1;
+            min-width: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            color: #fff;
+        }
+
+        .magic-mode:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .magic-mode.active {
+            background: rgba(0, 200, 83, 0.3);
+            border-color: #00E676;
+            box-shadow: 0 0 20px rgba(0, 230, 118, 0.5);
+        }
+
+        .mode-icon {
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .mode-name {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+            font-size: 1rem;
+        }
+
+        .mode-desc {
+            display: block;
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .spell-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .spell-button {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: bold;
+        }
+
+        .spell-button.awaken {
+            background: linear-gradient(135deg, #00C853, #00E676);
+            color: white;
+        }
+
+        .spell-button.awaken:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 200, 83, 0.5);
+        }
+
+        .spell-button.rest {
+            background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+            color: white;
+        }
+
+        .spell-button.rest:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.5);
+        }
+
+        .spell-button.hidden {
+            display: none;
+        }
+
+        .spell-icon {
+            font-size: 1.5rem;
+        }
+
+        /* ===== ANCIENT SCROLL ===== */
+        .ancient-scroll {
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 2px dashed rgba(255, 215, 0, 0.3);
+        }
+
+        .wisdom-text {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .wisdom-text:last-child {
+            margin-bottom: 0;
+        }
+
+        .wisdom-icon {
+            font-size: 1.5rem;
+        }
+
+        /* ===== CHAPTER 3: CHRONICLES ===== */
+        .chapter-heading {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #ffd700;
+        }
+
+        .heading-icon {
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .magic-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-crystal {
+            position: relative;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .crystal-glow {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: crystal-shine 3s infinite;
+        }
+
+        @keyframes crystal-shine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00E676;
+        }
+
+        /* ===== CHRONICLE BOOK ===== */
+        .chronicle-book {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+        }
+
+        .chronicle-title {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #ffd700;
+        }
+
+        .chronicle-pages {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        .chronicle-entry {
+            display: flex;
+            gap: 1rem;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid #00E676;
+            animation: entry-appear 0.3s ease;
+        }
+
+        @keyframes entry-appear {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .entry-time {
+            font-family: 'Courier New', monospace;
+            color: #00E676;
+            font-weight: bold;
+            min-width: 80px;
+        }
+
+        .entry-text {
+            color: rgba(255, 255, 255, 0.9);
+            flex: 1;
+        }
+
+        /* ===== CHAPTER 4: EPILOGUE ===== */
+        .epilogue-content {
+            text-align: center;
+        }
+
+        .magical-portal {
+            margin-bottom: 2rem;
+        }
+
+        .portal-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #ffd700;
+        }
+
+        .portal-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .portal-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .portal-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .portal-icon {
+            font-size: 1.5rem;
+        }
+
+        .story-end {
+            margin-top: 2rem;
+        }
+
+        .end-quote {
+            font-style: italic;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .author-signature {
+            font-size: 1rem;
+            color: #ffd700;
+        }
+
+        .the-end {
+            text-align: center;
+            padding: 2rem;
+            font-size: 2rem;
+            color: #ffd700;
+        }
+
+        .end-flourish {
+            display: inline-block;
+            animation: flourish 2s infinite;
+        }
+
+        @keyframes flourish {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .storybook {
+                padding: 1rem;
+            }
+
+            .chapter {
+                padding: 1.5rem;
+            }
+
+            .story-title {
+                font-size: 2rem;
+            }
+
+            .magic-modes {
+                flex-direction: column;
+            }
+
+            .magic-mode {
+                min-width: 100%;
+            }
+
+            .spell-actions {
+                flex-direction: column;
+            }
+
+            .spell-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Magical Stars Background -->
@@ -207,6 +820,295 @@
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script>
+        // ===== GREEN DOT GUARDIAN - INLINE JAVASCRIPT =====
+        
+        // State Management
+        let isActive = false;
+        let wakeLockObj = null;
+        let activityInterval = null;
+        let timerInterval = null;
+        let startTime = null;
+        let totalSeconds = 0;
+        let currentMode = 'active'; // 'active', 'rest', 'deep'
+
+        // Mode configurations (in minutes)
+        const MODE_CONFIG = {
+            active: { interval: 1, name: 'Ever Vigilant' },
+            rest: { interval: 5, name: 'Moonlight Rest' },
+            deep: { interval: 15, name: 'Deep Dreams' }
+        };
+
+        // DOM Elements
+        const guardianOrb = document.getElementById('guardianOrb');
+        const guardianTitle = document.getElementById('guardianTitle');
+        const enchantedTimer = document.getElementById('enchantedTimer');
+        const guardianMessage = document.getElementById('guardianMessage');
+        const awakenSpell = document.getElementById('awakenSpell');
+        const restSpell = document.getElementById('restSpell');
+        const chroniclePages = document.getElementById('chroniclePages');
+        const timeWatched = document.getElementById('timeWatched');
+        const magicPower = document.getElementById('magicPower');
+        const guardianState = document.getElementById('guardianState');
+        const magicModeButtons = document.querySelectorAll('.magic-mode');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            setupEventListeners();
+            addChronicleEntry('The guardian awakens to this realm...');
+            updateStats();
+        });
+
+        // Setup Event Listeners
+        function setupEventListeners() {
+            // Awaken button
+            awakenSpell.addEventListener('click', () => {
+                startGuardian();
+            });
+
+            // Rest button
+            restSpell.addEventListener('click', () => {
+                stopGuardian();
+            });
+
+            // Mode selector buttons
+            magicModeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (!isActive) {
+                        selectMode(btn.dataset.mode);
+                    }
+                });
+            });
+
+            // Visibility change
+            document.addEventListener('visibilitychange', handleVisibilityChange);
+
+            // Page unload warning
+            window.addEventListener('beforeunload', (e) => {
+                if (isActive) {
+                    e.preventDefault();
+                    e.returnValue = '';
+                }
+            });
+        }
+
+        // Select Magic Mode
+        function selectMode(mode) {
+            currentMode = mode;
+            magicModeButtons.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.mode === mode);
+            });
+            magicPower.textContent = MODE_CONFIG[mode].name;
+            addChronicleEntry(`Mode changed to: ${MODE_CONFIG[mode].name}`);
+        }
+
+        // Start Guardian
+        async function startGuardian() {
+            if (isActive) return;
+
+            isActive = true;
+            startTime = Date.now();
+
+            // UI Updates
+            guardianOrb.classList.add('active');
+            guardianTitle.textContent = '🌟 Guardian is Watching 🌟';
+            guardianMessage.textContent = `"I shall keep watch in ${MODE_CONFIG[currentMode].name} mode..."`;
+            awakenSpell.classList.add('hidden');
+            restSpell.classList.remove('hidden');
+            guardianState.textContent = 'Active';
+
+            // Disable mode selection
+            magicModeButtons.forEach(btn => btn.disabled = true);
+
+            // Request Wake Lock
+            await requestWakeLock();
+
+            // Start activity simulation
+            startActivitySimulation();
+
+            // Start timer
+            startTimer();
+
+            // Log
+            addChronicleEntry(`Guardian awakened in ${MODE_CONFIG[currentMode].name} mode`);
+            updateStats();
+        }
+
+        // Stop Guardian
+        function stopGuardian() {
+            if (!isActive) return;
+
+            isActive = false;
+
+            // UI Updates
+            guardianOrb.classList.remove('active');
+            guardianTitle.textContent = 'The Guardian Rests';
+            guardianMessage.textContent = '"Call upon me again when you need my watch..."';
+            awakenSpell.classList.remove('hidden');
+            restSpell.classList.add('hidden');
+            guardianState.textContent = 'Sleeping';
+
+            // Enable mode selection
+            magicModeButtons.forEach(btn => btn.disabled = false);
+
+            // Release Wake Lock
+            releaseWakeLock();
+
+            // Stop intervals
+            if (activityInterval) {
+                clearInterval(activityInterval);
+                activityInterval = null;
+            }
+
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+
+            // Log
+            const duration = formatTime(totalSeconds);
+            addChronicleEntry(`Guardian rested after watching for ${duration}`);
+            updateStats();
+        }
+
+        // Request Wake Lock API
+        async function requestWakeLock() {
+            if ('wakeLock' in navigator) {
+                try {
+                    wakeLockObj = await navigator.wakeLock.request('screen');
+                    addChronicleEntry('🔒 Wake Lock activated');
+                    
+                    wakeLockObj.addEventListener('release', () => {
+                        addChronicleEntry('🔓 Wake Lock released');
+                    });
+                } catch (err) {
+                    addChronicleEntry(`⚠️ Wake Lock failed: ${err.message}`);
+                }
+            } else {
+                addChronicleEntry('⚠️ Wake Lock not supported');
+            }
+        }
+
+        // Release Wake Lock
+        function releaseWakeLock() {
+            if (wakeLockObj) {
+                wakeLockObj.release();
+                wakeLockObj = null;
+            }
+        }
+
+        // Handle Visibility Change
+        async function handleVisibilityChange() {
+            if (document.hidden) {
+                addChronicleEntry('👁️ Tab hidden - guardian still watching...');
+            } else {
+                addChronicleEntry('👁️ Tab visible again');
+                if (isActive && !wakeLockObj) {
+                    await requestWakeLock();
+                }
+            }
+        }
+
+        // Start Activity Simulation
+        function startActivitySimulation() {
+            const intervalMinutes = MODE_CONFIG[currentMode].interval;
+            const intervalMs = intervalMinutes * 60 * 1000;
+
+            // Simulate immediately
+            simulateActivity();
+
+            // Then repeat at interval
+            activityInterval = setInterval(() => {
+                simulateActivity();
+            }, intervalMs);
+        }
+
+        // Simulate Activity
+        function simulateActivity() {
+            // Simulate mouse movement
+            const moveEvent = new MouseEvent('mousemove', {
+                bubbles: true,
+                cancelable: true,
+                view: window,
+                clientX: Math.random() * window.innerWidth,
+                clientY: Math.random() * window.innerHeight
+            });
+            document.dispatchEvent(moveEvent);
+
+            // Simulate keypress
+            const keyEvent = new KeyboardEvent('keydown', {
+                bubbles: true,
+                cancelable: true,
+                key: 'Shift'
+            });
+            document.dispatchEvent(keyEvent);
+
+            // Log activity
+            addChronicleEntry(`✨ Activity pulse sent (${MODE_CONFIG[currentMode].name})`);
+        }
+
+        // Start Timer
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                totalSeconds++;
+                const elapsed = totalSeconds;
+                enchantedTimer.textContent = formatTime(elapsed);
+                
+                // Update watched time stat
+                const minutes = Math.floor(elapsed / 60);
+                const hours = Math.floor(minutes / 60);
+                if (hours > 0) {
+                    timeWatched.textContent = `${hours}h ${minutes % 60}m`;
+                } else {
+                    timeWatched.textContent = `${minutes}m`;
+                }
+            }, 1000);
+        }
+
+        // Format Time (HH:MM:SS)
+        function formatTime(seconds) {
+            const hrs = Math.floor(seconds / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            return `${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
+        }
+
+        // Pad Number
+        function pad(num) {
+            return num.toString().padStart(2, '0');
+        }
+
+        // Add Chronicle Entry
+        function addChronicleEntry(text) {
+            const entry = document.createElement('div');
+            entry.className = 'chronicle-entry';
+
+            const time = new Date().toLocaleTimeString();
+            const timeSpan = document.createElement('span');
+            timeSpan.className = 'entry-time';
+            timeSpan.textContent = time;
+
+            const textSpan = document.createElement('span');
+            textSpan.className = 'entry-text';
+            textSpan.textContent = text;
+
+            entry.appendChild(timeSpan);
+            entry.appendChild(textSpan);
+
+            // Add to top of chronicle
+            chroniclePages.insertBefore(entry, chroniclePages.firstChild);
+
+            // Limit to 20 entries
+            while (chroniclePages.children.length > 20) {
+                chroniclePages.removeChild(chroniclePages.lastChild);
+            }
+        }
+
+        // Update Stats
+        function updateStats() {
+            magicPower.textContent = MODE_CONFIG[currentMode].name;
+            guardianState.textContent = isActive ? 'Active' : 'Sleeping';
+        }
+    </script>
 </body>
 </html>
