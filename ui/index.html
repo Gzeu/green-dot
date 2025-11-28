@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Dot</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <span class="dot" id="statusDot"></span>
+                <h1>Green Dot</h1>
+            </div>
+            <div class="version">v2.0.0</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content" id="dashboard">
+            <div class="status-card">
+                <div class="status-indicator">
+                    <div class="pulse-ring"></div>
+                    <div class="status-text" id="statusText">Inactive</div>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <span class="label">Uptime</span>
+                        <span class="value" id="uptime">00:00:00</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">Activity Count</span>
+                        <span class="value" id="activityCount">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">Last Trigger</span>
+                        <span class="value" id="lastTrigger">Never</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Control Buttons -->
+            <div class="controls">
+                <button class="btn btn-primary" id="startBtn">
+                    <span>▶️</span> Start
+                </button>
+                <button class="btn btn-secondary" id="pauseBtn" disabled>
+                    <span>⏸️</span> Pause
+                </button>
+                <button class="btn btn-danger" id="stopBtn" disabled>
+                    <span>⏹️</span> Stop
+                </button>
+            </div>
+
+            <!-- Quick Settings -->
+            <div class="quick-settings">
+                <div class="setting-row">
+                    <label>Interval (minutes)</label>
+                    <input type="number" id="interval" min="1" max="60" value="4">
+                </div>
+                <div class="setting-row">
+                    <label>AI Adaptive Timing</label>
+                    <label class="switch">
+                        <input type="checkbox" id="adaptive" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-row">
+                    <label>Burst Mode</label>
+                    <label class="switch">
+                        <input type="checkbox" id="burst" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-row">
+                    <label>Idle Detection</label>
+                    <label class="switch">
+                        <input type="checkbox" id="idleCheck" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Activity Log -->
+            <div class="activity-log">
+                <h3>Recent Activity</h3>
+                <div class="log-entries" id="logEntries">
+                    <div class="log-entry">
+                        <span class="time">--:--:--</span>
+                        <span class="message">Waiting to start...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <span>🔒 Running in stealth mode</span>
+            <a href="#" id="githubLink">🐛 GitHub</a>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
