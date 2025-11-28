@@ -1,6 +1,6 @@
 {
   "name": "@gzeu/green-dot",
-  "version": "1.0.6",
+  "version": "2.0.0",
   "description": "🟢 Keep your Teams & Messenger status green - AI-powered presence keeper",
   "main": "lib/launcher.js",
   "bin": {
@@ -10,7 +10,12 @@
   "scripts": {
     "start": "node bin/green-dot.js",
     "test": "node bin/green-dot.js --test",
-    "postinstall": "node lib/postinstall.js"
+    "postinstall": "node lib/postinstall.js",
+    "dev:ui": "cd ui && npm run dev",
+    "build:ui": "cd ui && npm run build",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build",
+    "gui": "tauri dev"
   },
   "keywords": [
     "green-dot",
@@ -20,7 +25,10 @@
     "status",
     "presence",
     "ai",
-    "automation"
+    "automation",
+    "tauri",
+    "system-tray",
+    "gui"
   ],
   "author": "Geo Pricop <pricopgeorge@gmail.com>",
   "license": "MIT",
@@ -44,6 +52,9 @@
     "ora": "^5.4.1",
     "prompts": "^2.4.2",
     "update-notifier": "^6.0.2"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1.5.9"
   },
   "preferGlobal": true
 }
