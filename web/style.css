@@ -1,6 +1,6 @@
 /* ============================================
    GREEN DOT - ULTRA PROFESSIONAL DESIGN
-   Modern Corporate Style - Clean & Powerful
+   Modern Corporate Style with 3 Work Modes
    ============================================ */
 
 :root {
@@ -12,6 +12,7 @@
   --success-dark: #00A843;
   --danger: #FF3B30;
   --warning: #FF9500;
+  --info: #5856D6;
   
   /* Neutrals */
   --gray-50: #F8FAFC;
@@ -165,6 +166,19 @@ body {
   right: 0;
   height: 4px;
   background: linear-gradient(90deg, var(--primary), var(--success));
+  transition: background 0.3s ease;
+}
+
+.status-card.mode-active::before {
+  background: linear-gradient(90deg, var(--success), var(--success-dark));
+}
+
+.status-card.mode-break::before {
+  background: linear-gradient(90deg, var(--warning), #FF6B00);
+}
+
+.status-card.mode-sleep::before {
+  background: linear-gradient(90deg, var(--danger), #CC0000);
 }
 
 /* ============================================
@@ -204,20 +218,40 @@ body {
   transform: translate(-50%, -50%);
   width: 120px;
   height: 120px;
-  background: linear-gradient(135deg, var(--success), var(--success-dark));
+  background: linear-gradient(135deg, var(--gray-200), var(--gray-300));
   border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3.5rem;
-  box-shadow: 0 10px 40px rgba(0, 200, 83, 0.3),
-              inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
 }
 
-.status-icon.inactive {
-  background: linear-gradient(135deg, var(--gray-300), var(--gray-400));
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+.status-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-full);
+}
+
+.status-icon.mode-active {
+  background: linear-gradient(135deg, var(--success), var(--success-dark));
+  box-shadow: 0 10px 40px rgba(0, 200, 83, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.status-icon.mode-break {
+  background: linear-gradient(135deg, var(--warning), #FF6B00);
+  box-shadow: 0 10px 40px rgba(255, 149, 0, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.status-icon.mode-sleep {
+  background: linear-gradient(135deg, var(--danger), #CC0000);
+  box-shadow: 0 10px 40px rgba(255, 59, 48, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 /* ============================================
@@ -241,29 +275,102 @@ body {
   margin-bottom: var(--space-xl);
   font-variant-numeric: tabular-nums;
   text-shadow: 0 2px 8px rgba(0, 200, 83, 0.15);
+  transition: color 0.3s ease;
+}
+
+.status-card.mode-break .timer {
+  color: var(--warning);
+}
+
+.status-card.mode-sleep .timer {
+  color: var(--danger);
 }
 
 /* ============================================
-   BUTTONS
+   MODE SELECTOR
    ============================================ */
 
+.mode-selector {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: center;
+  margin-bottom: var(--space-xl);
+  padding: 0.5rem;
+  background: var(--gray-50);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--gray-200);
+}
+
+.mode-btn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 2px solid transparent;
+  border-radius: var(--radius-lg);
+  background: transparent;
+  color: var(--gray-600);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.mode-btn:hover {
+  background: white;
+  color: var(--gray-900);
+}
+
+.mode-btn.active {
+  background: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.mode-btn.active.mode-active {
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.mode-btn.active.mode-break {
+  border-color: var(--warning);
+  color: var(--warning);
+}
+
+.mode-btn.active.mode-sleep {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* ============================================
+   BUTTONS - MODERN REDESIGN
+   ============================================ */
+
+.control-buttons {
+  display: flex;
+  gap: var(--space-md);
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
 .btn {
+  flex: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-sm);
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
   font-size: 1rem;
   font-weight: 600;
   border-radius: var(--radius-xl);
-  border: none;
+  border: 2px solid transparent;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: var(--shadow-md);
   position: relative;
   overflow: hidden;
-  width: 100%;
-  max-width: 400px;
 }
 
 .btn::before {
@@ -281,22 +388,48 @@ body {
   left: 100%;
 }
 
-.btn-primary {
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+.btn-start {
+  background: linear-gradient(135deg, var(--success), var(--success-dark));
   color: white;
+  border-color: var(--success);
 }
 
-.btn-primary:hover {
+.btn-start:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-xl);
+  border-color: var(--success-dark);
 }
 
-.btn-primary:active {
+.btn-stop {
+  background: linear-gradient(135deg, var(--danger), #CC0000);
+  color: white;
+  border-color: var(--danger);
+}
+
+.btn-stop:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+  border-color: #CC0000;
+}
+
+.btn-pause {
+  background: white;
+  color: var(--gray-700);
+  border-color: var(--gray-300);
+}
+
+.btn-pause:hover {
+  background: var(--gray-50);
+  border-color: var(--gray-400);
+}
+
+.btn:active {
   transform: translateY(0);
 }
 
-.btn.stop {
-  background: linear-gradient(135deg, var(--danger), #CC0000);
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* ============================================
@@ -519,7 +652,6 @@ body {
   .status-icon {
     width: 100px;
     height: 100px;
-    font-size: 3rem;
   }
   
   .status-text {
@@ -528,6 +660,15 @@ body {
   
   .timer {
     font-size: 2.5rem;
+  }
+  
+  .mode-selector {
+    flex-direction: column;
+  }
+  
+  .control-buttons {
+    flex-direction: column;
+    max-width: 100%;
   }
   
   .stats-grid {
@@ -560,10 +701,6 @@ body {
   
   .stat-item {
     padding: var(--space-md);
-  }
-  
-  .btn {
-    max-width: 100%;
   }
 }
 
