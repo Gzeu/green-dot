@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Keep your Teams & Messenger status green - No installation required">
-    <meta name="theme-color" content="#667eea">
-    <title>Green Dot - Keep Active</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2310b981'/%3E%3C/svg%3E">
+    <meta name="description" content="Keep your Teams & Messenger status green - Professional web app">
+    <meta name="theme-color" content="#0066FF">
+    <title>Green Dot - Professional Status Manager</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2300C853'/%3E%3C/svg%3E">
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -18,7 +18,7 @@
                 <span class="dot" id="statusDot"></span>
                 <h1>Green Dot</h1>
             </div>
-            <span class="version">Web v1.0</span>
+            <span class="version">Web v2.0</span>
         </header>
 
         <!-- Main Status Card -->
@@ -34,24 +34,24 @@
             
             <button class="btn btn-primary" id="toggleBtn">
                 <span id="btnIcon">▶️</span>
-                <span id="btnText">Start Keeping Active</span>
+                <span id="btnText">Start Session</span>
             </button>
 
             <!-- Info Box -->
             <div class="info-box">
-                <p>🔒 This keeps your screen awake and prevents sleep mode</p>
-                <p>⚡ Tab must remain open for it to work</p>
+                <p>🔒 Keeps your screen active and prevents sleep mode</p>
+                <p>⚡ Browser tab must remain open during session</p>
             </div>
         </main>
 
-        <!-- Stats -->
+        <!-- Stats Grid -->
         <div class="stats-grid">
             <div class="stat-item">
                 <div class="stat-label">Session Time</div>
                 <div class="stat-value" id="sessionTime">0m</div>
             </div>
             <div class="stat-item">
-                <div class="stat-label">Battery</div>
+                <div class="stat-label">Battery Level</div>
                 <div class="stat-value" id="battery">--</div>
             </div>
             <div class="stat-item">
@@ -66,7 +66,7 @@
             <div class="log-container" id="logContainer">
                 <div class="log-entry">
                     <span class="log-time">--:--:--</span>
-                    <span class="log-message">Waiting to start...</span>
+                    <span class="log-message">Waiting to start session...</span>
                 </div>
             </div>
         </div>
@@ -78,7 +78,7 @@
                 <a href="https://github.com/Gzeu/green-dot" target="_blank" rel="noopener">⚙️ CLI Tool</a>
                 <a href="https://github.com/Gzeu/green-dot" target="_blank" rel="noopener">💻 GitHub</a>
             </div>
-            <p class="copyright">Made with 💚 by Geo Pricop</p>
+            <p class="copyright">Made with 💚 by George Pricop</p>
         </footer>
     </div>
 
