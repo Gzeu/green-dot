@@ -1,0 +1,13 @@
+{
+  "name": "green-dot-ui",
+  "version": "2.0.0",
+  "description": "Green Dot UI",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
