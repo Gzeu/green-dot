@@ -203,6 +203,7 @@
             
             <button class="action-btn" onclick="toggleTimer()">▶️ START</button>
             <button class="action-btn" onclick="stopTimer()" style="background: linear-gradient(135deg, #ff6b6b, #ee5a52);">⏹️ STOP</button>
+                <button class="mode-btn" onclick="switchMode('unlimited')">⭐ UNLIMITED</button>
             
             <div class="log">
                 <div id="logContainer">
@@ -221,7 +222,8 @@
         const modes = {
             active: { label: '🟢 EVER VIGILANT', duration: 3600, color: '#00ff88' },
             break: { label: '🟠 BREAK TIME', duration: 900, color: '#ffaa33' },
-            sleep: { label: '💜 DEEP SLEEP', duration: 1800, color: '#cc99ff' }
+            sleep: { label: '💜 DEEP SLEEP', duration: 1800, color: '#cc99ff' },
+            unlimited: { label: '⭐ ETERNAL FLOW', duration: Infinity, color: '#ff00ff' }
         };
         
         function switchMode(mode) {
@@ -241,7 +243,9 @@
             const hrs = Math.floor(seconds / 3600);
             const mins = Math.floor((seconds % 3600) / 60);
             const secs = seconds % 60;
-            return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`; {
+            if (!isFinite(seconds)) return '∞∞∞∞';
+
         }
         
         function updateDisplay() {
