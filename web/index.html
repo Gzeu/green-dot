@@ -3,210 +3,304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A magical journey to keep your status always green">
-    <meta name="theme-color" content="#4A90E2">
-    <title>The Green Dot Tale ✨</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2300C853'/%3E%3Ctext x='50' y='65' text-anchor='middle' font-size='50'%3E✨%3C/text%3E%3C/svg%3E">
-    <link rel="stylesheet" href="style.css">
+    <title>🟢 Green Dot Tale</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 600px;
+            width: 100%;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 50px 40px;
+            margin: 20px auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin: 20px 0;
+            font-weight: 800;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .dot-container {
+            width: 150px;
+            height: 150px;
+            margin: 30px auto;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .dot {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle at 30% 30%, #00ff88, #00cc66);
+            border-radius: 50%;
+            box-shadow: 0 0 50px rgba(0, 255, 136, 0.8), inset -2px -2px 10px rgba(0, 0, 0, 0.2);
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        .dot.inactive {
+            background: radial-gradient(circle at 30% 30%, #cccccc, #999999);
+            box-shadow: 0 0 30px rgba(150, 150, 150, 0.5);
+        }
+        
+        .dot.sleep {
+            background: radial-gradient(circle at 30% 30%, #cc99ff, #9966ff);
+            box-shadow: 0 0 50px rgba(200, 150, 255, 0.8);
+        }
+        
+        .dot.break {
+            background: radial-gradient(circle at 30% 30%, #ffaa33, #ff8800);
+            box-shadow: 0 0 50px rgba(255, 170, 51, 0.8);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .timer {
+            font-size: 4em;
+            font-weight: 900;
+            font-family: 'Courier New', monospace;
+            color: #ffff00;
+            text-shadow: 0 0 20px rgba(255, 255, 0, 0.8);
+            letter-spacing: 3px;
+            margin: 30px 0;
+        }
+        
+        .mode-label {
+            font-size: 1.3em;
+            font-weight: 700;
+            margin: 20px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .modes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .mode-btn {
+            padding: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+        
+        .mode-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .mode-btn.active {
+            background: rgba(0, 255, 136, 0.4);
+            border-color: rgba(0, 255, 136, 0.8);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+        
+        .action-btn {
+            padding: 15px 40px;
+            font-size: 1.1em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00ff88, #00cc66);
+            color: #000;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .action-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
+        }
+        
+        .action-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .log {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+            font-size: 0.9em;
+        }
+        
+        .log-entry {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+    </style>
 </head>
 <body>
-    <!-- Magical Stars Background -->
-    <div class="stars-container">
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-        <div class="star"></div>
-    </div>
-
-    <!-- Floating Sparkles -->
-    <div class="sparkles">
-        <span class="sparkle">✨</span>
-        <span class="sparkle">⭐</span>
-        <span class="sparkle">💫</span>
-        <span class="sparkle">✨</span>
-        <span class="sparkle">⭐</span>
-    </div>
-
-    <div class="storybook">
-        <!-- Chapter 1: The Beginning -->
-        <section class="chapter chapter-intro">
-            <div class="chapter-header">
-                <div class="chapter-number">Chapter I</div>
-                <h1 class="story-title">The Tale of the Green Dot</h1>
-                <p class="story-subtitle">A Magical Journey Through Digital Realms</p>
+    <div class="container">
+        <div class="card">
+            <h1>✨ Green Dot Tale</h1>
+            
+            <div class="dot-container">
+                <div class="dot" id="dotStatus"></div>
             </div>
-
-            <div class="story-scroll">
-                <div class="story-text">
-                    <p class="story-paragraph">
-                        <span class="story-initial">O</span>nce upon a time, in the mystical land of Digital Kingdom, 
-                        there lived a tiny but powerful guardian known as the <strong>Green Dot</strong>. 
-                        This magical being had one sacred duty: to keep your presence alive and glowing 
-                        in the realm of Teams and Messenger...
-                    </p>
+            
+            <div class="mode-label" id="modeLabel">Ready to Activate</div>
+            
+            <div class="timer" id="timer">00:00:00</div>
+            
+            <div class="modes-grid">
+                <button class="mode-btn active" onclick="switchMode('active')">🟢 Active</button>
+                <button class="mode-btn" onclick="switchMode('break')">🟠 Break</button>
+                <button class="mode-btn" onclick="switchMode('sleep')">💜 Sleep</button>
+            </div>
+            
+            <button class="action-btn" onclick="toggleTimer()">▶️ START</button>
+            <button class="action-btn" onclick="stopTimer()" style="background: linear-gradient(135deg, #ff6b6b, #ee5a52);">⏹️ STOP</button>
+            
+            <div class="log">
+                <div id="logContainer">
+                    <div class="log-entry">System ready...</div>
                 </div>
             </div>
-        </section>
-
-        <!-- Chapter 2: The Guardian -->
-        <section class="chapter chapter-guardian">
-            <div class="guardian-scene">
-                <div class="magic-circle">
-                    <div class="pulse-ring"></div>
-                    <div class="guardian-orb" id="guardianOrb">
-                        <span class="orb-icon">🟢</span>
-                    </div>
-                    <div class="magic-particles">
-                        <span class="particle">✨</span>
-                        <span class="particle">⭐</span>
-                        <span class="particle">💫</span>
-                        <span class="particle">✨</span>
-                    </div>
-                </div>
-
-                <div class="guardian-status">
-                    <h2 class="guardian-title" id="guardianTitle">The Guardian Awaits</h2>
-                    <div class="enchanted-timer" id="enchantedTimer">00:00:00</div>
-                    <p class="guardian-message" id="guardianMessage">
-                        "Wake me with a spell, and I shall watch over your realm..."
-                    </p>
-                </div>
-            </div>
-
-            <!-- Spell Casting (Control Panel) -->
-            <div class="spell-casting">
-                <h3 class="spell-title">✨ Cast Your Spell ✨</h3>
-                
-                <!-- Magic Mode Selector -->
-                <div class="magic-modes">
-                    <button class="magic-mode active" data-mode="active">
-                        <span class="mode-icon">🌟</span>
-                        <span class="mode-name">Ever Vigilant</span>
-                        <span class="mode-desc">Always awake</span>
-                    </button>
-                    <button class="magic-mode" data-mode="rest">
-                        <span class="mode-icon">🌙</span>
-                        <span class="mode-name">Moonlight Rest</span>
-                        <span class="mode-desc">Brief slumber</span>
-                    </button>
-                    <button class="magic-mode" data-mode="deep">
-                        <span class="mode-icon">💤</span>
-                        <span class="mode-name">Deep Dreams</span>
-                        <span class="mode-desc">Long sleep</span>
-                    </button>
-                </div>
-
-                <!-- Spell Actions -->
-                <div class="spell-actions">
-                    <button class="spell-button awaken" id="awakenSpell">
-                        <span class="spell-icon">🪄</span>
-                        <span class="spell-text">Awaken Guardian</span>
-                    </button>
-                    <button class="spell-button rest hidden" id="restSpell">
-                        <span class="spell-icon">🌙</span>
-                        <span class="spell-text">Let Rest</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Ancient Wisdom (Info) -->
-            <div class="ancient-scroll">
-                <div class="scroll-content">
-                    <p class="wisdom-text">
-                        <span class="wisdom-icon">📜</span>
-                        <em>Ancient Wisdom:</em> The guardian keeps your screen enchanted and prevents the curse of slumber mode
-                    </p>
-                    <p class="wisdom-text">
-                        <span class="wisdom-icon">🔮</span>
-                        <em>Sacred Rule:</em> This magical tome (tab) must remain open for the spell to work
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Chapter 3: The Chronicles -->
-        <section class="chapter chapter-chronicles">
-            <h2 class="chapter-heading">
-                <span class="heading-icon">📖</span>
-                Chronicles of the Guardian
-            </h2>
-
-            <!-- Magic Stats -->
-            <div class="magic-stats">
-                <div class="stat-crystal">
-                    <div class="crystal-glow"></div>
-                    <div class="stat-icon">⏰</div>
-                    <div class="stat-label">Time Watched</div>
-                    <div class="stat-value" id="timeWatched">0m</div>
-                </div>
-                <div class="stat-crystal">
-                    <div class="crystal-glow"></div>
-                    <div class="stat-icon">⚡</div>
-                    <div class="stat-label">Magic Power</div>
-                    <div class="stat-value" id="magicPower">--</div>
-                </div>
-                <div class="stat-crystal">
-                    <div class="crystal-glow"></div>
-                    <div class="stat-icon">🌟</div>
-                    <div class="stat-label">Guardian State</div>
-                    <div class="stat-value" id="guardianState">Sleeping</div>
-                </div>
-            </div>
-
-            <!-- Activity Chronicle -->
-            <div class="chronicle-book">
-                <h3 class="chronicle-title">The Guardian's Journal</h3>
-                <div class="chronicle-pages" id="chroniclePages">
-                    <div class="chronicle-entry">
-                        <span class="entry-time">--:--:--</span>
-                        <span class="entry-text">The guardian awaits your command...</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Chapter 4: The Epilogue -->
-        <section class="chapter chapter-epilogue">
-            <div class="epilogue-content">
-                <div class="magical-portal">
-                    <h3 class="portal-title">Other Realms to Explore</h3>
-                    <div class="portal-links">
-                        <a href="https://github.com/Gzeu/green-dot" class="portal-link" target="_blank">
-                            <span class="portal-icon">🏰</span>
-                            <span class="portal-text">Desktop Castle</span>
-                        </a>
-                        <a href="https://github.com/Gzeu/green-dot" class="portal-link" target="_blank">
-                            <span class="portal-icon">⚔️</span>
-                            <span class="portal-text">Command Sword</span>
-                        </a>
-                        <a href="https://github.com/Gzeu/green-dot" class="portal-link" target="_blank">
-                            <span class="portal-icon">📚</span>
-                            <span class="portal-text">Ancient Library</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="story-end">
-                    <p class="end-quote">
-                        "And so the guardian watches, forever faithful, keeping your presence bright in the digital realm..."
-                    </p>
-                    <p class="author-signature">
-                        ✨ Crafted with magic by <strong>George Pricop</strong> ✨
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- The End Flourish -->
-        <div class="the-end">
-            <span class="end-flourish">✨ The End ✨</span>
         </div>
     </div>
-
-    <script src="app.js"></script>
+    
+    <script>
+        let currentMode = 'active';
+        let timeLeft = 3600; // 1 hour in seconds
+        let isRunning = false;
+        let timerInterval = null;
+        
+        const modes = {
+            active: { label: '🟢 EVER VIGILANT', duration: 3600, color: '#00ff88' },
+            break: { label: '🟠 BREAK TIME', duration: 900, color: '#ffaa33' },
+            sleep: { label: '💜 DEEP SLEEP', duration: 1800, color: '#cc99ff' }
+        };
+        
+        function switchMode(mode) {
+            if (isRunning) stopTimer();
+            currentMode = mode;
+            timeLeft = modes[mode].duration;
+            
+            // Update UI
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            updateDisplay();
+            addLog(`Switched to ${modes[mode].label}`);
+        }
+        
+        function formatTime(seconds) {
+            const hrs = Math.floor(seconds / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+        
+        function updateDisplay() {
+            document.getElementById('timer').textContent = formatTime(timeLeft);
+            document.getElementById('modeLabel').textContent = modes[currentMode].label;
+            
+            const dot = document.getElementById('dotStatus');
+            dot.className = 'dot';
+            if (currentMode === 'break') dot.classList.add('break');
+            if (currentMode === 'sleep') dot.classList.add('sleep');
+            if (!isRunning) dot.classList.add('inactive');
+        }
+        
+        function toggleTimer() {
+            isRunning = !isRunning;
+            
+            if (isRunning) {
+                addLog(`✅ ${modes[currentMode].label} ACTIVATED!`);
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateDisplay();
+                    
+                    if (timeLeft <= 0) {
+                        stopTimer();
+                        addLog(`⏰ ${modes[currentMode].label} COMPLETED!`);
+                    }
+                }, 1000);
+            } else {
+                clearInterval(timerInterval);
+                addLog(`⏸️ Timer paused`);
+            }
+            
+            updateDisplay();
+        }
+        
+        function stopTimer() {
+            isRunning = false;
+            clearInterval(timerInterval);
+            timeLeft = modes[currentMode].duration;
+            updateDisplay();
+            addLog(`⛔ Timer stopped - Reset to ${formatTime(timeLeft)}`);
+        }
+        
+        function addLog(message) {
+            const log = document.getElementById('logContainer');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            log.appendChild(entry);
+            log.scrollTop = log.scrollHeight;
+            
+            // Keep only last 10 entries
+            while (log.children.length > 10) {
+                log.removeChild(log.firstChild);
+            }
+        }
+        
+        // Initialize
+        updateDisplay();
+    </script>
 </body>
 </html>
