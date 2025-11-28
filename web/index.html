@@ -3,83 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Keep your Teams & Messenger status green - Professional web app">
-    <meta name="theme-color" content="#0066FF">
-    <title>Green Dot - Professional Status Manager</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2300C853'/%3E%3C/svg%3E">
-    <link rel="manifest" href="manifest.json">
+    <meta name="description" content="A magical journey to keep your status always green">
+    <meta name="theme-color" content="#4A90E2">
+    <title>The Green Dot Tale ✨</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2300C853'/%3E%3Ctext x='50' y='65' text-anchor='middle' font-size='50'%3E✨%3C/text%3E%3C/svg%3E">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo">
-                <span class="dot" id="statusDot"></span>
-                <h1>Green Dot</h1>
-            </div>
-            <span class="version">Web v2.0</span>
-        </header>
+    <!-- Magical Stars Background -->
+    <div class="stars-container">
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    </div>
 
-        <!-- Main Status Card -->
-        <main class="status-card">
-            <div class="pulse-container">
-                <div class="pulse-ring" id="pulseRing"></div>
-                <div class="status-icon" id="statusIcon">⏸️</div>
-            </div>
-            
-            <h2 class="status-text" id="statusText">Ready to Start</h2>
-            
-            <div class="timer" id="timer">00:00:00</div>
-            
-            <button class="btn btn-primary" id="toggleBtn">
-                <span id="btnIcon">▶️</span>
-                <span id="btnText">Start Session</span>
-            </button>
+    <!-- Floating Sparkles -->
+    <div class="sparkles">
+        <span class="sparkle">✨</span>
+        <span class="sparkle">⭐</span>
+        <span class="sparkle">💫</span>
+        <span class="sparkle">✨</span>
+        <span class="sparkle">⭐</span>
+    </div>
 
-            <!-- Info Box -->
-            <div class="info-box">
-                <p>🔒 Keeps your screen active and prevents sleep mode</p>
-                <p>⚡ Browser tab must remain open during session</p>
+    <div class="storybook">
+        <!-- Chapter 1: The Beginning -->
+        <section class="chapter chapter-intro">
+            <div class="chapter-header">
+                <div class="chapter-number">Chapter I</div>
+                <h1 class="story-title">The Tale of the Green Dot</h1>
+                <p class="story-subtitle">A Magical Journey Through Digital Realms</p>
             </div>
-        </main>
 
-        <!-- Stats Grid -->
-        <div class="stats-grid">
-            <div class="stat-item">
-                <div class="stat-label">Session Time</div>
-                <div class="stat-value" id="sessionTime">0m</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-label">Battery Level</div>
-                <div class="stat-value" id="battery">--</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-label">Status</div>
-                <div class="stat-value" id="connectionStatus">Inactive</div>
-            </div>
-        </div>
-
-        <!-- Activity Log -->
-        <div class="log-section">
-            <h3>Activity Log</h3>
-            <div class="log-container" id="logContainer">
-                <div class="log-entry">
-                    <span class="log-time">--:--:--</span>
-                    <span class="log-message">Waiting to start session...</span>
+            <div class="story-scroll">
+                <div class="story-text">
+                    <p class="story-paragraph">
+                        <span class="story-initial">O</span>nce upon a time, in the mystical land of Digital Kingdom, 
+                        there lived a tiny but powerful guardian known as the <strong>Green Dot</strong>. 
+                        This magical being had one sacred duty: to keep your presence alive and glowing 
+                        in the realm of Teams and Messenger...
+                    </p>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-links">
-                <a href="https://github.com/Gzeu/green-dot" target="_blank" rel="noopener">📦 Desktop App</a>
-                <a href="https://github.com/Gzeu/green-dot" target="_blank" rel="noopener">⚙️ CLI Tool</a>
-                <a href="https://github.com/Gzeu/green-dot" target="_blank" rel="noopener">💻 GitHub</a>
+        <!-- Chapter 2: The Guardian -->
+        <section class="chapter chapter-guardian">
+            <div class="guardian-scene">
+                <div class="magic-circle">
+                    <div class="pulse-ring"></div>
+                    <div class="guardian-orb" id="guardianOrb">
+                        <span class="orb-icon">🟢</span>
+                    </div>
+                    <div class="magic-particles">
+                        <span class="particle">✨</span>
+                        <span class="particle">⭐</span>
+                        <span class="particle">💫</span>
+                        <span class="particle">✨</span>
+                    </div>
+                </div>
+
+                <div class="guardian-status">
+                    <h2 class="guardian-title" id="guardianTitle">The Guardian Awaits</h2>
+                    <div class="enchanted-timer" id="enchantedTimer">00:00:00</div>
+                    <p class="guardian-message" id="guardianMessage">
+                        "Wake me with a spell, and I shall watch over your realm..."
+                    </p>
+                </div>
             </div>
-            <p class="copyright">Made with 💚 by George Pricop</p>
-        </footer>
+
+            <!-- Spell Casting (Control Panel) -->
+            <div class="spell-casting">
+                <h3 class="spell-title">✨ Cast Your Spell ✨</h3>
+                
+                <!-- Magic Mode Selector -->
+                <div class="magic-modes">
+                    <button class="magic-mode active" data-mode="active">
+                        <span class="mode-icon">🌟</span>
+                        <span class="mode-name">Ever Vigilant</span>
+                        <span class="mode-desc">Always awake</span>
+                    </button>
+                    <button class="magic-mode" data-mode="rest">
+                        <span class="mode-icon">🌙</span>
+                        <span class="mode-name">Moonlight Rest</span>
+                        <span class="mode-desc">Brief slumber</span>
+                    </button>
+                    <button class="magic-mode" data-mode="deep">
+                        <span class="mode-icon">💤</span>
+                        <span class="mode-name">Deep Dreams</span>
+                        <span class="mode-desc">Long sleep</span>
+                    </button>
+                </div>
+
+                <!-- Spell Actions -->
+                <div class="spell-actions">
+                    <button class="spell-button awaken" id="awakenSpell">
+                        <span class="spell-icon">🪄</span>
+                        <span class="spell-text">Awaken Guardian</span>
+                    </button>
+                    <button class="spell-button rest hidden" id="restSpell">
+                        <span class="spell-icon">🌙</span>
+                        <span class="spell-text">Let Rest</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Ancient Wisdom (Info) -->
+            <div class="ancient-scroll">
+                <div class="scroll-content">
+                    <p class="wisdom-text">
+                        <span class="wisdom-icon">📜</span>
+                        <em>Ancient Wisdom:</em> The guardian keeps your screen enchanted and prevents the curse of slumber mode
+                    </p>
+                    <p class="wisdom-text">
+                        <span class="wisdom-icon">🔮</span>
+                        <em>Sacred Rule:</em> This magical tome (tab) must remain open for the spell to work
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 3: The Chronicles -->
+        <section class="chapter chapter-chronicles">
+            <h2 class="chapter-heading">
+                <span class="heading-icon">📖</span>
+                Chronicles of the Guardian
+            </h2>
+
+            <!-- Magic Stats -->
+            <div class="magic-stats">
+                <div class="stat-crystal">
+                    <div class="crystal-glow"></div>
+                    <div class="stat-icon">⏰</div>
+                    <div class="stat-label">Time Watched</div>
+                    <div class="stat-value" id="timeWatched">0m</div>
+                </div>
+                <div class="stat-crystal">
+                    <div class="crystal-glow"></div>
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-label">Magic Power</div>
+                    <div class="stat-value" id="magicPower">--</div>
+                </div>
+                <div class="stat-crystal">
+                    <div class="crystal-glow"></div>
+                    <div class="stat-icon">🌟</div>
+                    <div class="stat-label">Guardian State</div>
+                    <div class="stat-value" id="guardianState">Sleeping</div>
+                </div>
+            </div>
+
+            <!-- Activity Chronicle -->
+            <div class="chronicle-book">
+                <h3 class="chronicle-title">The Guardian's Journal</h3>
+                <div class="chronicle-pages" id="chroniclePages">
+                    <div class="chronicle-entry">
+                        <span class="entry-time">--:--:--</span>
+                        <span class="entry-text">The guardian awaits your command...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 4: The Epilogue -->
+        <section class="chapter chapter-epilogue">
+            <div class="epilogue-content">
+                <div class="magical-portal">
+                    <h3 class="portal-title">Other Realms to Explore</h3>
+                    <div class="portal-links">
+                        <a href="https://github.com/Gzeu/green-dot" class="portal-link" target="_blank">
+                            <span class="portal-icon">🏰</span>
+                            <span class="portal-text">Desktop Castle</span>
+                        </a>
+                        <a href="https://github.com/Gzeu/green-dot" class="portal-link" target="_blank">
+                            <span class="portal-icon">⚔️</span>
+                            <span class="portal-text">Command Sword</span>
+                        </a>
+                        <a href="https://github.com/Gzeu/green-dot" class="portal-link" target="_blank">
+                            <span class="portal-icon">📚</span>
+                            <span class="portal-text">Ancient Library</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="story-end">
+                    <p class="end-quote">
+                        "And so the guardian watches, forever faithful, keeping your presence bright in the digital realm..."
+                    </p>
+                    <p class="author-signature">
+                        ✨ Crafted with magic by <strong>George Pricop</strong> ✨
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- The End Flourish -->
+        <div class="the-end">
+            <span class="end-flourish">✨ The End ✨</span>
+        </div>
     </div>
 
     <script src="app.js"></script>
