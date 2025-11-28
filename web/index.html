@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Keep your Teams & Messenger status green - No installation required">
+    <meta name="theme-color" content="#667eea">
+    <title>Green Dot - Keep Active</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2310b981'/%3E%3C/svg%3E">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="dot" id="statusDot"></span>
+                <h1>Green Dot</h1>
+            </div>
+            <span class="version">Web v1.0</span>
+        </header>
+
+        <!-- Main Status Card -->
+        <main class="status-card">
+            <div class="pulse-container">
+                <div class="pulse-ring" id="pulseRing"></div>
+                <div class="status-icon" id="statusIcon">⏸️</div>
+            </div>
+            
+            <h2 class="status-text" id="statusText">Ready to Start</h2>
+            
+            <div class="timer" id="timer">00:00:00</div>
+            
+            <button class="btn btn-primary" id="toggleBtn">
+                <span id="btnIcon">▶️</span>
+                <span id="btnText">Start Keeping Active</span>
+            </button>
+
+            <!-- Info Box -->
+            <div class="info-box">
+                <p>🔒 This keeps your screen awake and prevents sleep mode</p>
+                <p>⚡ Tab must remain open for it to work</p>
+            </div>
+        </main>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-label">Session Time</div>
+                <div class="stat-value" id="sessionTime">0m</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Battery</div>
+                <div class="stat-value" id="battery">--</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Status</div>
+                <div class="stat-value" id="connectionStatus">Inactive</div>
+            </div>
+        </div>
+
+        <!-- Activity Log -->
+        <div class="log-section">
+            <h3>Activity Log</h3>
+            <div class="log-container" id="logContainer">
+                <div class="log-entry">
+                    <span class="log-time">--:--:--</span>
+                    <span class="log-message">Waiting to start...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="https://github.com/Gzeu/green-dot" target="_blank" rel="noopener">📦 Desktop App</a>
+                <a href="https://github.com/Gzeu/green-dot" target="_blank" rel="noopener">⚙️ CLI Tool</a>
+                <a href="https://github.com/Gzeu/green-dot" target="_blank" rel="noopener">💻 GitHub</a>
+            </div>
+            <p class="copyright">Made with 💚 by Geo Pricop</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
