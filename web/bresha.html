@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <title>Green Dot – Screen Keeper</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg1: #0f172a;
+      --bg2: #020617;
+      --accent1: #4ade80;
+      --accent2: #22c55e;
+      --accent3: #a855f7;
+      --glass-bg: rgba(15,23,42,0.75);
+      --glass-border: rgba(148,163,184,0.4);
+      --text-main: #e5e7eb;
+      --text-soft: #9ca3af;
+      --danger: #f97373;
+      --warn: #facc15;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top left, #1e293b, #020617 55%),
+        radial-gradient(circle at bottom right, #0f172a, #020617 60%);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    /* Stele animate */
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: radial-gradient(1px 1px at 10% 20%, #ffffff44 0, transparent 50%),
+        radial-gradient(2px 2px at 80% 30%, #ffffff33 0, transparent 50%),
+        radial-gradient(1.5px 1.5px at 30% 70%, #ffffff22 0, transparent 50%),
+        radial-gradient(2px 2px at 60% 80%, #ffffff44 0, transparent 50%);
+      opacity: 0.5;
+      animation: twinkle 8s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.2; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.02); }
+      100% { opacity: 0.35; transform: scale(1.01); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      width: 100%;
+      padding: 24px;
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, #1f2937aa, #020617aa);
+      border-radius: 24px;
+      border: 1px solid var(--glass-border);
+      box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 0.8),
+        0 30px 80px rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(18px) saturate(150%);
+      padding: 24px 24px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(34, 197, 94, 0.15), transparent 60%),
+        radial-gradient(circle at 100% 0%, rgba(168, 85, 247, 0.12), transparent 60%);
+      opacity: 0.8;
+      z-index: -1;
+      animation: aurora 18s ease-in-out infinite alternate;
+    }
+
+    @keyframes aurora {
+      0% { transform: translate3d(-5%, -5%, 0) scale(1); }
+      50% { transform: translate3d(5%, -10%, 0) scale(1.05); }
+      100% { transform: translate3d(-3%, -3%, 0) scale(1.02); }
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .green-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #bbf7d0, #22c55e);
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.9);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(34,197,94,0.7); }
+      50% { transform: scale(1.25); box-shadow: 0 0 25px rgba(74,222,128,0.9); }
+    }
+
+    .subtitle {
+      color: var(--text-soft);
+      font-size: 0.9rem;
+      max-width: 420px;
+    }
+
+    .status-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(90deg, rgba(21,128,61,0.2), rgba(22,163,74,0.05));
+      border: 1px solid rgba(34,197,94,0.35);
+      color: #bbf7d0;
+    }
+
+    .status-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(34,197,94,0.8);
+    }
+
+    .status-pill.idle {
+      background: linear-gradient(90deg, rgba(148,163,184,0.25), rgba(30,64,175,0.05));
+      border-color: rgba(148,163,184,0.6);
+      color: #e5e7eb;
+    }
+    .status-pill.idle .status-indicator {
+      background: #9ca3af;
+      box-shadow: 0 0 6px rgba(148,163,184,0.7);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.6fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 840px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      border-radius: 18px;
+      border: 1px solid rgba(148,163,184,0.35);
+      background: radial-gradient(circle at top left, rgba(15,23,42,0.9), rgba(15,23,42,0.75));
+      padding: 14px 14px 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0 0, rgba(148,163,184,0.08), transparent 55%);
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .panel-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #9ca3af;
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.5);
+      color: #e5e7eb;
+      background: rgba(15,23,42,0.7);
+    }
+
+    .story {
+      font-size: 0.9rem;
+      color: #e5e7eb;
+      line-height: 1.55;
+      max-height: 190px;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+    .story::-webkit-scrollbar,
+    .activity-log::-webkit-scrollbar {
+      width: 4px;
+    }
+    .story::-webkit-scrollbar-thumb,
+    .activity-log::-webkit-scrollbar-thumb {
+      background: rgba(148,163,184,0.7);
+      border-radius: 999px;
+    }
+
+    .story strong {
+      color: #a5b4fc;
+      font-weight: 600;
+    }
+    .story em {
+      color: #f9a8d4;
+    }
+
+    .story-section {
+      margin-bottom: 8px;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .modes {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .mode-btn {
+      position: relative;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.78rem;
+      border: 1px solid rgba(148,163,184,0.55);
+      background: rgba(15,23,42,0.9);
+      color: #e5e7eb;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s;
+    }
+
+    .mode-btn:hover {
+      border-color: rgba(94,234,212,0.8);
+      transform: translateY(-1px);
+    }
+
+    .mode-btn.active {
+      border-color: rgba(56,189,248,0.95);
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.2), rgba(15,23,42,0.95));
+      box-shadow: 0 0 16px rgba(56,189,248,0.35);
+    }
+
+    .mode-title {
+      font-weight: 500;
+      font-size: 0.8rem;
+    }
+    .mode-sub {
+      font-size: 0.7rem;
+      color: #9ca3af;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 7px 16px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.1s ease, box-shadow 0.15s ease, background 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #022c22;
+      box-shadow: 0 10px 25px rgba(34,197,94,0.45);
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(34,197,94,0.65);
+    }
+    .btn-primary:active {
+      transform: translateY(0);
+      box-shadow: 0 8px 18px rgba(34,197,94,0.55);
+    }
+
+    .btn-secondary {
+      background: rgba(15,23,42,0.95);
+      color: #e5e7eb;
+      border: 1px solid rgba(148,163,184,0.6);
+    }
+    .btn-secondary:hover {
+      background: rgba(30,64,175,0.55);
+      border-color: rgba(129,140,248,0.9);
+    }
+
+    .timer {
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.9rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.6);
+      background: rgba(15,23,42,0.9);
+      color: #e5e7eb;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot-mini {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34,197,94,0.9);
+    }
+    .dot-mini.idle {
+      background: #9ca3af;
+      box-shadow: none;
+    }
+
+    .small-label {
+      font-size: 0.7rem;
+      color: #9ca3af;
+    }
+
+    .activity-log {
+      font-size: 0.8rem;
+      max-height: 190px;
+      overflow-y: auto;
+      padding-right: 6px;
+      color: #d1d5db;
+    }
+
+    .log-entry {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 3px 0;
+      border-bottom: 1px dashed rgba(30,64,175,0.35);
+    }
+    .log-entry:last-child {
+      border-bottom: none;
+    }
+
+    .log-time {
+      font-family: ui-monospace, SFMono-Regular;
+      font-size: 0.75rem;
+      color: #9ca3af;
+    }
+    .log-text {
+      flex: 1;
+    }
+    .log-tag {
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.6);
+      color: #e5e7eb;
+      white-space: nowrap;
+    }
+
+    .tech-foot {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.7rem;
+      color: #9ca3af;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pill-stack {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .mini-pill {
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.5);
+      background: rgba(15,23,42,0.9);
+    }
+
+    /* Hidden keep-alive elements */
+    #keeperVideo {
+      position: fixed;
+      width: 1px;
+      height: 1px;
+      opacity: 0.0001;
+      bottom: -10px;
+      left: -10px;
+      pointer-events: none;
+    }
+
+    #debugStatus {
+      font-size: 0.7rem;
+      color: #a5b4fc;
+      max-width: 100%;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+  <div class="stars"></div>
+
+  <!-- Video mut invizibil pentru keep-alive media -->
+  <video id="keeperVideo" muted playsinline loop>
+    <!-- folosim un data-uri video mic (silence, 1 sec loop). Dacă nu pornește, rămân celelalte straturi. -->
+    <source
+      src="data:video/mp4;base64,AAAAHGZ0eXBpc29tAAAAAGlzb21pc28yYXZjMQAAAAhmcmVlAAAAG21kYXQAAAABAAAAAQAAAAEAAAAAAAAAAAAAAA=="
+      type="video/mp4"
+    />
+  </video>
+
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <div class="title-block">
+          <h1>
+            <span class="green-dot"></span>
+            GREEN DOT – SCREEN KEEPER
+          </h1>
+          <p class="subtitle">
+            Ritual digital care încearcă să țină <strong>ecranul aprins și statusul verde</strong>, folosind
+            un stack complex: <em>Wake Lock</em>, <em>media invizibilă</em>, <em>tick-uri periodice</em>.
+          </p>
+        </div>
+        <div id="statusPill" class="status-pill idle">
+          <span class="status-indicator"></span>
+          <span id="statusText">Idle – apăsa Start</span>
+        </div>
+      </div>
+
+      <div class="layout">
+        <section class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Povestea Magiei</span>
+            <span class="tag">Inline • Browser Ritual</span>
+          </div>
+          <div class="story">
+            <div class="story-section">
+              Într-o seară în care monitoarele începeau să adoarmă singure, un mic punct
+              <strong>verde</strong> a refuzat să dispară. El trăia în tăcere în colțul aplicațiilor:
+              Teams, Discord, Slack – veghind ca statu­tul să rămână <em>Online</em>, chiar și când
+              utilizatorul dispărea în alte lumi.
+            </div>
+            <div class="story-section">
+              Dar lumea browserelor e plină de reguli stricte:<br />
+              tab-urile adorm când nu le privești, sistemul de operare stinge ecranul după câteva
+              minute, iar <strong>magia adevărată</strong> – să ții monitorul treaz – este, oficial,
+              rezervată aplicațiilor native.
+            </div>
+            <div class="story-section">
+              Atunci se naște un <strong>ritual hibrid</strong>:
+              <ul style="margin: 4px 0 0 16px; padding-left: 0;">
+                <li>💡 <strong>Wake Lock API</strong> – când browserul îl permite</li>
+                <li>🎬 <strong>video mut &amp; invizibil</strong> care rulează în fundal</li>
+                <li>🎧 <strong>AudioContext</strong> cu sunet tăcut, dar activ</li>
+                <li>⏱️ <strong>tick-uri periodice</strong> care mișcă ușor DOM-ul</li>
+              </ul>
+            </div>
+            <div class="story-section">
+              Nu e o vrajă perfectă – <strong>sistemul de operare are ultimul cuvânt</strong>. Dar atât
+              timp cât lași această pagină deschisă, în prim-plan, aici se strânge toată puterea pe
+              care un simplu tab o poate invoca pentru a ține ecranul <strong>treaz</strong>.
+            </div>
+          </div>
+
+          <div class="controls">
+            <div class="modes">
+              <button class="mode-btn active" data-mode="balanced">
+                <span class="mode-title">Balanced Ritual</span>
+                <span class="mode-sub">WakeLock + media + tick 30s</span>
+              </button>
+              <button class="mode-btn" data-mode="aggressive">
+                <span class="mode-title">Aggressive</span>
+                <span class="mode-sub">Tick rapid, log detaliat</span>
+              </button>
+              <button class="mode-btn" data-mode="minimal">
+                <span class="mode-title">Minimal</span>
+                <span class="mode-sub">Doar WakeLock (unde există)</span>
+              </button>
+            </div>
+
+            <div class="actions">
+              <button id="startBtn" class="btn btn-primary">
+                ▶ Start Ritual
+              </button>
+              <button id="stopBtn" class="btn btn-secondary" disabled>
+                ■ Stop
+              </button>
+              <div class="timer">
+                <span id="timerDot" class="dot-mini idle"></span>
+                <span class="small-label">Timp activ</span>
+                <span id="timerText">00:00:00</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Activity Log &amp; Telemetrie</span>
+            <span class="tag">Debug • Wake Lock • Media</span>
+          </div>
+          <div id="activityLog" class="activity-log"></div>
+
+          <div class="tech-foot">
+            <div class="pill-stack">
+              <span class="mini-pill" id="supportWakeLock">WakeLock: necunoscut</span>
+              <span class="mini-pill" id="supportMedia">Media: necunoscut</span>
+              <span class="mini-pill" id="supportVisibility">Visibility API</span>
+            </div>
+            <div id="debugStatus">Ready.</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const statusPill = document.getElementById("statusPill");
+      const statusText = document.getElementById("statusText");
+      const startBtn = document.getElementById("startBtn");
+      const stopBtn = document.getElementById("stopBtn");
+      const timerText = document.getElementById("timerText");
+      const timerDot = document.getElementById("timerDot");
+      const logEl = document.getElementById("activityLog");
+      const debugStatus = document.getElementById("debugStatus");
+      const keeperVideo = document.getElementById("keeperVideo");
+      const supportWakeLock = document.getElementById("supportWakeLock");
+      const supportMedia = document.getElementById("supportMedia");
+
+      const modeButtons = Array.from(
+        document.querySelectorAll(".mode-btn")
+      );
+
+      let currentMode = "balanced";
+      let timerInterval = null;
+      let domTickInterval = null;
+      let startTimestamp = null;
+      let wakeLock = null;
+      let audioCtx = null;
+      let audioSource = null;
+      let running = false;
+
+      // --- utils -------------------------------------------------------------
+      function log(message, tag = "info") {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString("ro-RO", {
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
+
+        const div = document.createElement("div");
+        div.className = "log-entry";
+
+        const time = document.createElement("span");
+        time.className = "log-time";
+        time.textContent = timeStr;
+
+        const text = document.createElement("span");
+        text.className = "log-text";
+        text.textContent = message;
+
+        const tagEl = document.createElement("span");
+        tagEl.className = "log-tag";
+        tagEl.textContent = tag.toUpperCase();
+
+        div.appendChild(time);
+        div.appendChild(text);
+        div.appendChild(tagEl);
+
+        logEl.prepend(div);
+
+        // păstrează log-ul la o dimensiune rezonabilă
+        const maxEntries = 80;
+        if (logEl.children.length > maxEntries) {
+          logEl.removeChild(logEl.lastChild);
+        }
+      }
+
+      function setStatus(active, reason) {
+        if (active) {
+          statusPill.classList.remove("idle");
+          statusText.textContent = "Ritual activ – " + reason;
+          timerDot.classList.remove("idle");
+        } else {
+          statusPill.classList.add("idle");
+          statusText.textContent = "Idle – apăsa Start";
+          timerDot.classList.add("idle");
+        }
+      }
+
+      function formatDuration(ms) {
+        const totalSeconds = Math.floor(ms / 1000);
+        const h = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
+        const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, "0");
+        const s = String(totalSeconds % 60).padStart(2, "0");
+        return `${h}:${m}:${s}`;
+      }
+
+      // --- Wake Lock ---------------------------------------------------------
+      async function requestWakeLock() {
+        if (!("wakeLock" in navigator)) {
+          log("Wake Lock API nu este disponibil în acest browser.", "warn");
+          debugStatus.textContent = "WakeLock indisponibil – depindem de media + tick.";
+          return;
+        }
+        try {
+          wakeLock = await navigator.wakeLock.request("screen");
+          log("Wake Lock activat (screen).", "wakelock");
+
+          wakeLock.addEventListener("release", () => {
+            log("Wake Lock a fost eliberat (probabil tab în background).", "wakelock");
+          });
+
+          document.addEventListener("visibilitychange", async () => {
+            if (document.visibilityState === "visible" && running) {
+              try {
+                if (!wakeLock) {
+                  wakeLock = await navigator.wakeLock.request("screen");
+                  log("Wake Lock re-activat după revenire în prim-plan.", "wakelock");
+                }
+              } catch (err) {
+                log("Nu am putut re-activa Wake Lock: " + err.message, "error");
+              }
+            }
+          });
+        } catch (err) {
+          log("Eroare la activarea Wake Lock: " + err.message, "error");
+          debugStatus.textContent =
+            "WakeLock a eșuat – poate trebuie HTTPS sau alt browser.";
+        }
+      }
+
+      async function releaseWakeLock() {
+        if (wakeLock) {
+          try {
+            await wakeLock.release();
+            log("Wake Lock eliberat manual.", "wakelock");
+          } catch (err) {
+            log("Eroare la eliberarea Wake Lock: " + err.message, "error");
+          } finally {
+            wakeLock = null;
+          }
+        }
+      }
+
+      // --- Media keep-alive (video + audio) ---------------------------------
+      async function startMediaKeepAlive() {
+        let videoOK = false;
+        try {
+          if (keeperVideo) {
+            const p = keeperVideo.play();
+            if (p && typeof p.then === "function") {
+              await p;
+            }
+            videoOK = true;
+            log("Video mut invizibil pornit pentru keep-alive.", "media");
+          }
+        } catch (err) {
+          log("Nu pot porni video invizibil: " + err.message, "error");
+        }
+
+        // AudioContext – sunet tăcut, dar marcat ca media activă
+        try {
+          if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          }
+          if (audioCtx.state === "suspended") {
+            await audioCtx.resume();
+          }
+          if (!audioSource) {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = "sine";
+            osc.frequency.value = 440;
+            gain.gain.value = 0.00001; // practic tăcut
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            audioSource = osc;
+          }
+          log("AudioContext activ (sunet tăcut).", "media");
+        } catch (err) {
+          log("Nu pot porni AudioContext: " + err.message, "error");
+        }
+
+        supportMedia.textContent =
+          "Media: " +
+          (videoOK ? "video OK" : "video fail") +
+          (audioCtx ? " + audio" : "");
+      }
+
+      async function stopMediaKeepAlive() {
+        try {
+          if (keeperVideo) {
+            keeperVideo.pause();
+            keeperVideo.currentTime = 0;
+          }
+        } catch (err) {
+          log("Eroare la oprirea video: " + err.message, "error");
+        }
+        try {
+          if (audioSource) {
+            audioSource.stop();
+            audioSource.disconnect();
+            audioSource = null;
+          }
+          if (audioCtx) {
+            await audioCtx.close();
+            audioCtx = null;
+          }
+        } catch (err) {
+          log("Eroare la oprirea AudioContext: " + err.message, "error");
+        }
+      }
+
+      // --- DOM tick (simulare activitate internă) ----------------------------
+      function startDomTick(intervalMs) {
+        let flip = false;
+        if (domTickInterval) {
+          clearInterval(domTickInterval);
+        }
+        domTickInterval = setInterval(() => {
+          flip = !flip;
+          debugStatus.textContent =
+            "Keep-alive tick (" +
+            currentMode +
+            ") • " +
+            new Date().toLocaleTimeString("ro-RO");
+          // mică modificare de stil ca să „mișcăm" ceva în DOM
+          if (flip) {
+            timerText.style.opacity = "0.95";
+          } else {
+            timerText.style.opacity = "1";
+          }
+        }, intervalMs);
+        log("DOM tick pornit la " + intervalMs + " ms.", "tick");
+      }
+
+      function stopDomTick() {
+        if (domTickInterval) {
+          clearInterval(domTickInterval);
+          domTickInterval = null;
+        }
+      }
+
+      // --- Timer -------------------------------------------------------------
+      function startTimer() {
+        startTimestamp = Date.now();
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+          const elapsed = Date.now() - startTimestamp;
+          timerText.textContent = formatDuration(elapsed);
+        }, 1000);
+      }
+
+      function stopTimer() {
+        if (timerInterval) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+        }
+      }
+
+      // --- Control principal -------------------------------------------------
+      async function startRitual() {
+        if (running) return;
+        running = true;
+
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+        setStatus(true, currentMode + " mode");
+        startTimer();
+
+        // config în funcție de mod
+        if (currentMode === "minimal") {
+          await requestWakeLock();
+          startDomTick(30000);
+        } else if (currentMode === "balanced") {
+          await requestWakeLock();
+          await startMediaKeepAlive();
+          startDomTick(20000);
+        } else if (currentMode === "aggressive") {
+          await requestWakeLock();
+          await startMediaKeepAlive();
+          startDomTick(8000);
+        }
+
+        log("Ritual START – mod: " + currentMode, "start");
+      }
+
+      async function stopRitual() {
+        if (!running) return;
+        running = false;
+
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+        setStatus(false, "");
+        stopTimer();
+        stopDomTick();
+        await releaseWakeLock();
+        await stopMediaKeepAlive();
+
+        debugStatus.textContent = "Ritual oprit. Pagina este pasivă.";
+        log("Ritual STOP.", "stop");
+      }
+
+      // --- Mode switching ----------------------------------------------------
+      modeButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          modeButtons.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          currentMode = btn.dataset.mode || "balanced";
+          log("Comutat pe mod: " + currentMode, "mode");
+        });
+      });
+
+      // --- Event listeners ---------------------------------------------------
+      startBtn.addEventListener("click", () => {
+        startRitual();
+      });
+
+      stopBtn.addEventListener("click", () => {
+        stopRitual();
+      });
+
+      window.addEventListener("beforeunload", () => {
+        // best-effort cleanup
+        if (running) {
+          releaseWakeLock();
+          stopMediaKeepAlive();
+        }
+      });
+
+      // --- Capabilities detection -------------------------------------------
+      if ("wakeLock" in navigator) {
+        supportWakeLock.textContent = "WakeLock: suportat (screen)";
+      } else {
+        supportWakeLock.textContent = "WakeLock: NU este suportat aici";
+      }
+
+      if (document.visibilityState != null) {
+        log("Visibility API disponibil.", "info");
+      }
+
+      debugStatus.textContent =
+        "Ready. Apasă START, lasă tab-ul în prim-plan și vezi dacă ecranul rămâne treaz.";
+
+      log("Pagina a fost încărcată. Aștept comanda de START.", "info");
+    })();
+  </script>
+</body>
+</html>
