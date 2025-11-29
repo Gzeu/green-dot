@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <title>Green Dot – Teams Online Keeper</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg1: #0f172a; --bg2: #020617; --accent1: #4ade80;
+      --accent2: #22c55e; --accent3: #a855f7;
+      --glass-bg: rgba(15,23,42,0.75); --glass-border: rgba(148,163,184,0.4);
+      --text-main: #e5e7eb; --text-soft: #9ca3af;
+      --danger: #f97373; --warn: #facc15;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #1e293b, #020617 55%), radial-gradient(circle at bottom right, #0f172a, #020617 60%);
+      color: var(--text-main); display: flex; align-items: center; justify-content: center; padding: 20px; overflow: hidden;
+    }
+    .stars {
+      position: fixed; inset: 0; pointer-events: none;
+      background-image: radial-gradient(1px 1px at 10% 20%, #ffffff44 0, transparent 50%), radial-gradient(2px 2px at 80% 30%, #ffffff33 0, transparent 50%);
+      opacity: 0.5; animation: twinkle 8s ease-in-out infinite alternate; z-index: 0;
+    }
+    @keyframes twinkle { 0% { opacity: 0.2; } 100% { opacity: 0.35; } }
+    .container { position: relative; z-index: 1; max-width: 960px; width: 100%; padding: 24px; }
+    .card {
+      background: radial-gradient(circle at top left, #1f2937aa, #020617aa);
+      border-radius: 24px; border: 1px solid var(--glass-border); backdrop-filter: blur(18px);
+      padding: 24px; position: relative; box-shadow: 0 30px 80px rgba(15, 23, 42, 0.9);
+    }
+    h1 { font-size: 1.5rem; letter-spacing: 0.08em; text-transform: uppercase; color: #e5e7eb; display: flex; align-items: center; gap: 10px; }
+    .green-dot {
+      width: 12px; height: 12px; border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #bbf7d0, #22c55e);
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.9); animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.25); } }
+    .subtitle { color: var(--text-soft); font-size: 0.9rem; margin: 8px 0; }
+    .panel {
+      border-radius: 18px; border: 1px solid rgba(148,163,184,0.35);
+      background: radial-gradient(circle at top left, rgba(15,23,42,0.9), rgba(15,23,42,0.75));
+      padding: 14px; margin-top: 16px;
+    }
+    .mode-btn { border-radius: 999px; padding: 8px 12px; font-size: 0.75rem; border: 1px solid rgba(148,163,184,0.55); background: rgba(15,23,42,0.9); color: #e5e7eb; cursor: pointer; transition: all 0.15s; margin: 4px; }
+    .mode-btn.active { border-color: rgba(56,189,248,0.95); background: rgba(56,189,248,0.2); box-shadow: 0 0 16px rgba(56,189,248,0.35); }
+    .btn { border-radius: 999px; padding: 8px 16px; font-size: 0.8rem; border: none; cursor: pointer; font-weight: 500; }
+    .btn-primary { background: linear-gradient(135deg, #22c55e, #16a34a); color: #022c22; }
+    .btn-secondary { background: rgba(15,23,42,0.95); color: #e5e7eb; border: 1px solid rgba(148,163,184,0.6); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .activity-log { font-size: 0.8rem; max-height: 180px; overflow-y: auto; color: #d1d5db; }
+    .log-entry { display: flex; justify-content: space-between; gap: 6px; padding: 3px 0; border-bottom: 1px dashed rgba(30,64,175,0.35); }
+    #keepCanvas { position: fixed; width: 1px; height: 1px; opacity: 0; pointer-events: none; left: -1px; top: -1px; }
+    .layout { display: grid; grid-template-columns: 2fr 1.6fr; gap: 18px; margin-top: 16px; }
+    @media (max-width: 840px) { .layout { grid-template-columns: 1fr; } }
+    .modes { display: flex; gap: 6px; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+  <div class="stars"></div>
+  <canvas id="keepCanvas" width="1" height="1"></canvas>
+  <div class="container">
+    <div class="card">
+      <h1><span class="green-dot"></span>GREEN DOT – Teams Always Online</h1>
+      <p class="subtitle">🎬 Zero Video | 🎧 Silent Audio | 🎨 RAF 60fps | 🎯 Teams Focus Mode | ✅ 0 Console Errors</p>
+      <div class="layout">
+        <section class="panel">
+          <h2 style="font-size:0.9rem;margin-bottom:8px;">⚙ Control Panel</h2>
+          <div style="margin-bottom:10px;">
+            <label style="font-size:0.85rem;display:block;margin-bottom:6px;color:#9ca3af;">Select Mode:</label>
+            <div class="modes">
+              <button class="mode-btn active" data-mode="balanced">Balanced</button>
+              <button class="mode-btn" data-mode="aggressive">Aggressive</button>
+              <button class="mode-btn" data-mode="teams">Teams Focus</button>
+              <button class="mode-btn" data-mode="minimal">Minimal</button>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+            <button id="startBtn" class="btn btn-primary">▶ Start Ritual</button>
+            <button id="stopBtn" class="btn btn-secondary" disabled>■ Stop</button>
+          </div>
+          <div style="margin-top:12px;font-size:0.85rem;color:#9ca3af;">
+            <span>⏱ Time: <span id="timerText" style="font-family:monospace;color:#22c55e;font-weight:bold;">00:00:00</span></span>
+          </div>
+        </section>
+        <section class="panel">
+          <h2 style="font-size:0.9rem;margin-bottom:8px;">📊 Activity Log</h2>
+          <div id="activityLog" class="activity-log"></div>
+          <div style="margin-top:8px;font-size:0.75rem;color:#9ca3af;">
+            <div id="supportInfo" style="margin-bottom:4px;">Checking capabilities...</div>
+            <div id="debugStatus" style="color:#a5b4fc;word-break:break-word;">Ready. Press START.</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const startBtn = document.getElementById('startBtn');
+      const stopBtn = document.getElementById('stopBtn');
+      const timerText = document.getElementById('timerText');
+      const logEl = document.getElementById('activityLog');
+      const debugStatus = document.getElementById('debugStatus');
+      const supportInfo = document.getElementById('supportInfo');
+      const canvas = document.getElementById('keepCanvas');
+      const ctx = canvas ? canvas.getContext('2d') : null;
+      const modeButtons = Array.from(document.querySelectorAll('.mode-btn'));
+
+      let currentMode = 'balanced';
+      let timerInterval = null;
+      let startTimestamp = null;
+      let running = false;
+      let wakeLock = null;
+      let audioCtx = null;
+      let audioSource = null;
+      let rafId = null;
+      let teamsInterval = null;
+      let focusCounter = 0;
+
+      function log(message, tag = 'info') {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('ro-RO', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const div = document.createElement('div');
+        div.className = 'log-entry';
+        div.innerHTML = `<span style="font-family:monospace;color:#9ca3af;font-size:0.75rem;">${timeStr}</span><span style="flex:1;">${message}</span><span style="font-size:0.7rem;padding:2px 6px;border-radius:999px;background:rgba(15,23,42,0.9);border:1px solid rgba(148,163,184,0.6);color:#e5e7eb;white-space:nowrap;">${tag.toUpperCase()}</span>`;
+        logEl.prepend(div);
+        if (logEl.children.length > 80) logEl.removeChild(logEl.lastChild);
+      }
+
+      function formatDuration(ms) {
+        const totalSeconds = Math.floor(ms / 1000);
+        const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+        const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+        const s = String(totalSeconds % 60).padStart(2, '0');
+        return `${h}:${m}:${s}`;
+      }
+
+      async function requestWakeLock() {
+        if (!('wakeLock' in navigator)) {
+          log('Wake Lock API unavailable in this browser.', 'warn');
+          return;
+        }
+        try {
+          wakeLock = await navigator.wakeLock.request('screen');
+          log('Wake Lock activated (screen).', 'wakelock');
+          wakeLock.addEventListener('release', () => {
+            log('Wake Lock was released (tab backgrounded).', 'wakelock');
+          });
+          document.addEventListener('visibilitychange', async () => {
+            if (document.visibilityState === 'visible' && running && !wakeLock) {
+              try {
+                wakeLock = await navigator.wakeLock.request('screen');
+                log('Wake Lock re-acquired (tab visible again).', 'wakelock');
+              } catch (err) {
+                log('Wake Lock re-acquire failed: ' + err.message, 'error');
+              }
+            }
+          });
+        } catch (err) {
+          log('Wake Lock request failed: ' + err.message, 'error');
+        }
+      }
+
+      async function releaseWakeLock() {
+        if (wakeLock) {
+          try { await wakeLock.release(); log('Wake Lock released manually.', 'wakelock'); } catch (err) { }
+          wakeLock = null;
+        }
+      }
+
+      async function startMediaKeepAlive() {
+        try {
+          if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          if (audioCtx.state === 'suspended') await audioCtx.resume();
+          if (!audioSource) {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine'; osc.frequency.value = 440;
+            gain.gain.setValueAtTime(0.00001, audioCtx.currentTime);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); audioSource = osc;
+          }
+          log('AudioContext active (silent media keep-alive).', 'media');
+        } catch (err) {
+          log('AudioContext error: ' + err.message, 'warn');
+        }
+      }
+
+      async function stopMediaKeepAlive() {
+        if (audioSource) {
+          try { audioSource.stop(); audioSource.disconnect(); audioSource = null; } catch (err) { }
+        }
+        if (audioCtx) { try { await audioCtx.close(); } catch (err) { } audioCtx = null; }
+      }
+
+      function startRafLoop() {
+        function loop() {
+          if (ctx) {
+            ctx.fillStyle = `hsl(${Date.now() % 360}, 50%, 50%)`;
+            ctx.fillRect(0, 0, 1, 1);
+          }
+          rafId = requestAnimationFrame(loop);
+        }
+        loop();
+        log('RAF loop started (60fps tab activity).', 'raf');
+      }
+
+      function stopRafLoop() {
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      }
+
+      function startTeamsFocus() {
+        teamsInterval = setInterval(() => {
+          focusCounter++;
+          if (!document.hasFocus()) {
+            log('Tab not focused – activity burst.', 'focus');
+            document.title = `Green Dot [${focusCounter}]`;
+            setTimeout(() => document.title = 'Green Dot – Teams Always Online', 100);
+          }
+        }, 5000);
+        log('Teams Focus mode active (focus checks).', 'teams');
+      }
+
+      function startDomTick(intervalMs) {
+        const tickInterval = setInterval(() => {
+          debugStatus.textContent = `Keep-alive tick (${currentMode}) • ${new Date().toLocaleTimeString('ro-RO')}`;
+        }, intervalMs);
+        return tickInterval;
+      }
+
+      async function startRitual() {
+        if (running) return;
+        running = true; startBtn.disabled = true; stopBtn.disabled = false;
+        startTimestamp = Date.now();
+        timerInterval = setInterval(() => {
+          timerText.textContent = formatDuration(Date.now() - startTimestamp);
+        }, 1000);
+
+        if (currentMode === 'minimal') {
+          await requestWakeLock();
+          startDomTick(30000);
+        } else if (currentMode === 'balanced') {
+          await requestWakeLock();
+          await startMediaKeepAlive();
+          startRafLoop();
+          startDomTick(20000);
+        } else if (currentMode === 'aggressive') {
+          await requestWakeLock();
+          await startMediaKeepAlive();
+          startRafLoop();
+          startDomTick(8000);
+        } else if (currentMode === 'teams') {
+          await requestWakeLock();
+          await startMediaKeepAlive();
+          startRafLoop();
+          startTeamsFocus();
+          startDomTick(10000);
+        }
+        log('Ritual START – mode: ' + currentMode, 'start');
+      }
+
+      async function stopRitual() {
+        if (!running) return;
+        running = false; startBtn.disabled = false; stopBtn.disabled = true;
+        if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+        stopRafLoop();
+        if (teamsInterval) { clearInterval(teamsInterval); teamsInterval = null; }
+        await releaseWakeLock();
+        await stopMediaKeepAlive();
+        debugStatus.textContent = 'Ritual stopped. Tab is idle.';
+        log('Ritual STOP.', 'stop');
+      }
+
+      modeButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          modeButtons.forEach((b) => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentMode = btn.dataset.mode || 'balanced';
+          log('Switched to mode: ' + currentMode, 'mode');
+        });
+      });
+
+      startBtn.addEventListener('click', () => startRitual());
+      stopBtn.addEventListener('click', () => stopRitual());
+
+      if ('wakeLock' in navigator) {
+        supportInfo.textContent = 'WakeLock: supported | RAF: yes | Audio: yes';
+      } else {
+        supportInfo.textContent = 'WakeLock: NOT supported (will use RAF+Audio) | Fallback: Active';
+      }
+
+      log('Page loaded. Press START to begin ritual.', 'info');
+      debugStatus.textContent = 'Ready. Select a mode and press START.';
+    })();
+  </script>
+</body>
+</html>
